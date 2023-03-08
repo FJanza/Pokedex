@@ -1,7 +1,47 @@
+import {Box, Card, Typography} from "@mui/material";
 import React from "react";
+import {Barra} from "./Barra";
 
-const Stats = () => {
-  return <div>Stats</div>;
+interface Props {
+  pokemon: any;
+}
+
+const Stats = ({pokemon}: Props) => {
+  return (
+    <Box
+      component={Card}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        padding: "1.5rem",
+        gap: "0.7rem",
+        height: "100%",
+      }}
+    >
+      <Typography variant={"h5"}>Stats</Typography>
+      {pokemon.stats.map((stat: any) => {
+        return (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography>{stat.stat.name}</Typography>
+            <Box
+              sx={{
+                width: "500px",
+                backgroundColor: "green",
+              }}
+            >
+              <Barra valor={stat.base_stat} />
+            </Box>
+          </Box>
+        );
+      })}
+    </Box>
+  );
 };
 
 export default Stats;

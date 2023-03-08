@@ -81,7 +81,7 @@ export default function Home() {
               />
             </Box>
             <Box sx={{flex: 1}}>
-              <Stats />
+              <Stats pokemon={pokemon} />
             </Box>
           </Box>
           <Box sx={{display: "flex", flexDirection: "row", gap: "2rem"}}>
