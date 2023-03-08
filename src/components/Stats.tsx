@@ -14,8 +14,8 @@ const Stats = ({pokemon}: Props) => {
         display: "flex",
         flexDirection: "column",
         padding: "1.5rem",
-        gap: "0.7rem",
         height: "100%",
+        justifyContent: "space-between",
       }}
     >
       <Typography variant={"h5"}>Stats</Typography>
@@ -26,17 +26,20 @@ const Stats = ({pokemon}: Props) => {
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-between",
+              gap: "1rem",
+              alignItems: "center",
             }}
           >
-            <Typography>{stat.stat.name}</Typography>
+            <Typography sx={{flex: 1}}>{stat.stat.name}</Typography>
             <Box
               sx={{
-                width: "500px",
-                backgroundColor: "green",
+                flex: 4,
+                width: "100%",
               }}
             >
-              <Barra valor={stat.base_stat} />
+              <Barra valor={(stat.base_stat / 255) * 100} />
             </Box>
+            <Typography sx={{flex: 0.2}}>{stat.base_stat}</Typography>
           </Box>
         );
       })}

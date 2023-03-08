@@ -9,8 +9,11 @@ import {
   CardContent,
   CardMedia,
   IconButton,
+  Theme,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
+import {useTheme} from "@mui/material/styles";
 import Details from "src/components/Details";
 import Stats from "src/components/Stats";
 import EvolutionChain from "src/components/EvolutionChain";
@@ -20,11 +23,19 @@ import VisualizadorDePokemon from "src/components/VisualizadorDePokemon";
 
 //max pokemon 1010
 
+const MAX_POKEMON_ID = 1010;
+
 export default function Home() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
   const [pokemon, setPokemon] = useState(null);
   const [pokemonID, setPokemonID] = useState(1);
+
+  const theme = useTheme();
+
+  const isMobile = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down("md")
+  );
 
   function handlerButtonFlechaDer() {
     if (pokemonID + 1 <= 1010) {
@@ -63,16 +74,21 @@ export default function Home() {
       {pokemon ? (
         <Box
           sx={{
-            padding: "10rem",
+            padding: "10%",
             display: "flex",
             flexDirection: "column",
             gap: "2rem",
+            minWidth: "300px",
           }}
         >
-          <Box sx={{display: "flex", flexDirection: "row", gap: "2rem"}}>
-            <Box
-              sx={{width: "250px", height: "300px", backgroundColor: "green"}}
-            >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: isMobile ? "column" : "row",
+              gap: "2rem",
+            }}
+          >
+            <Box sx={{flex: 1}}>
               <VisualizadorDePokemon
                 pokemonID={pokemonID}
                 pokemon={pokemon}
@@ -80,16 +96,22 @@ export default function Home() {
                 handlerButtonFlechaDer={() => handlerButtonFlechaDer()}
               />
             </Box>
-            <Box sx={{flex: 1}}>
+            <Box sx={{flex: 4}}>
               <Stats pokemon={pokemon} />
             </Box>
           </Box>
-          <Box sx={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: isMobile ? "column" : "row",
+              gap: "2rem",
+            }}
+          >
             <Box sx={{flex: 3}}>
               <Details pokemon={pokemon} />
             </Box>
             <Box sx={{flex: 2}}>
-              <EvolutionChain />
+              <EvolutionChain pokemon={pokemon} pokemonID={pokemonID} />
             </Box>
           </Box>
         </Box>

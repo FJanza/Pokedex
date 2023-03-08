@@ -1,14 +1,22 @@
-import {Box} from "@mui/material";
 import React from "react";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import {styled} from "@mui/material/styles";
+import LinearProgress, {
+  linearProgressClasses,
+} from "@mui/material/LinearProgress";
 
-// FN 0-0.07
-// mw 0.07 - 0.15
-// ft 0.15 -0.38
-// ww 0.38 -0.45
-// bs 0.45 - 1
-
-//mitad de la flecha
+const BorderLinearProgress = styled(LinearProgress)(({theme}) => ({
+  alignSelf: "center",
+  height: 10,
+  borderRadius: 5,
+  [`&.${linearProgressClasses.colorPrimary}`]: {
+    backgroundColor:
+      theme.palette.grey[theme.palette.mode === "light" ? 200 : 800],
+  },
+  [`& .${linearProgressClasses.bar}`]: {
+    borderRadius: 5,
+    backgroundColor: theme.palette.mode === "light" ? "#1a90ff" : "#308fe8",
+  },
+}));
 
 interface Props {
   valor: number;
@@ -17,16 +25,7 @@ interface Props {
 export const Barra = ({valor}: Props) => {
   return (
     <>
-      <Box sx={{display: "flex", height: "0.5rem"}}>
-        <Box
-          sx={{
-            width: "100%",
-            backgroundColor: "red",
-            borderStartRadius: "1rem",
-            borderEndRadius: "1rem",
-          }}
-        ></Box>
-      </Box>
+      <BorderLinearProgress variant="determinate" value={valor} />
     </>
   );
 };
