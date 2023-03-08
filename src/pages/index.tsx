@@ -111,7 +111,7 @@ export default function Home() {
               <Details pokemon={pokemon} />
             </Box>
             <Box sx={{flex: 2}}>
-              <EvolutionChain pokemon={pokemon} pokemonID={pokemonID} />
+              <EvolutionChain pokemon={pokemon} />
             </Box>
           </Box>
         </Box>
