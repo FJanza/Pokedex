@@ -19,7 +19,7 @@ const Stats = ({pokemon}: Props) => {
       }}
     >
       <Typography variant={"h5"}>Stats</Typography>
-      {pokemon.stats.map((stat: any) => {
+      {pokemon.stats.map((stat: any, i: number) => {
         return (
           <Box
             sx={{
@@ -29,6 +29,7 @@ const Stats = ({pokemon}: Props) => {
               gap: "1rem",
               alignItems: "center",
             }}
+            key={i}
           >
             <Typography sx={{flex: 1}}>{stat.stat.name}</Typography>
             <Box

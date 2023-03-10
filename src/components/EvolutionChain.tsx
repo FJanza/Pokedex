@@ -4,9 +4,10 @@ import {Box, Button, Card, Typography} from "@mui/material";
 
 interface Props {
   pokemon: any;
+  flecha: string;
 }
 
-const EvolutionChain = ({pokemon}: Props) => {
+const EvolutionChain = ({pokemon, flecha}: Props) => {
   const [chainId, setChainId] = useState(1);
   const [chain, setChain] = useState<null | {
     evolves_to: [
@@ -35,23 +36,52 @@ const EvolutionChain = ({pokemon}: Props) => {
   }, [chainId]);
 
   useEffect(() => {
-    if (
+    if (pokemon.id === 1) {
+      setChainId(1);
+    } else if (
       !(
         chain?.species.name.includes(pokemon.name) ||
         (chain?.evolves_to[0] &&
           chain?.evolves_to[0].species.name.includes(pokemon.name)) ||
-        (chain?.evolves_to[0].evolves_to[0] &&
+        (chain?.evolves_to[0] &&
+          chain?.evolves_to[0].evolves_to[0] &&
           chain?.evolves_to[0].evolves_to[0].species.name.includes(
             pokemon.name
           ))
-      )
+      ) &&
+      flecha === "der"
     ) {
-      setChainId(chainId + 1);
+      if (chainId + 1 < 530) {
+        setChainId(chainId + 1);
+      } else {
+        setChainId(1);
+      }
+    } else if (
+      !(
+        chain?.species.name.includes(pokemon.name) ||
+        (chain?.evolves_to[0] &&
+          chain?.evolves_to[0].species.name.includes(pokemon.name)) ||
+        (chain?.evolves_to[0] &&
+          chain?.evolves_to[0].evolves_to[0] &&
+          chain?.evolves_to[0].evolves_to[0].species.name.includes(
+            pokemon.name
+          ))
+      ) &&
+      flecha === "izq"
+    ) {
+      if (chainId - 1 > 0) {
+        setChainId(chainId - 1);
+      } else {
+        setChainId(530);
+      }
     }
   }, [pokemon]);
 
   return (
     <Box component={Card}>
+      <Typography variant={"h5"} sx={{paddingLeft: "1rem", paddingTop: "1rem"}}>
+        Evolution Chain
+      </Typography>
       <Box
         sx={{
           display: "flex",
@@ -67,6 +97,7 @@ const EvolutionChain = ({pokemon}: Props) => {
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
             <img
@@ -82,6 +113,7 @@ const EvolutionChain = ({pokemon}: Props) => {
             sx={{
               display: "flex",
               flexDirection: "column",
+              alignItems: "center",
               justifyContent: "space-between",
             }}
           >
@@ -101,6 +133,7 @@ const EvolutionChain = ({pokemon}: Props) => {
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
             <img

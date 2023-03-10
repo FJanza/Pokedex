@@ -30,6 +30,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [pokemon, setPokemon] = useState(null);
   const [pokemonID, setPokemonID] = useState(1);
+  const [flecha, setFlecha] = useState("");
 
   const theme = useTheme();
 
@@ -38,6 +39,7 @@ export default function Home() {
   );
 
   function handlerButtonFlechaDer() {
+    setFlecha("der");
     if (pokemonID + 1 <= 1010) {
       setPokemonID(pokemonID + 1);
     } else {
@@ -46,6 +48,8 @@ export default function Home() {
   }
 
   function handlerButtonFlechaIzq() {
+    setFlecha("izq");
+
     if (pokemonID - 1 >= 1) {
       setPokemonID(pokemonID - 1);
     } else {
@@ -107,11 +111,11 @@ export default function Home() {
               gap: "2rem",
             }}
           >
-            <Box sx={{flex: 3}}>
+            <Box sx={{flex: 2}}>
               <Details pokemon={pokemon} />
             </Box>
-            <Box sx={{flex: 2}}>
-              <EvolutionChain pokemon={pokemon} />
+            <Box sx={{flex: 3}}>
+              <EvolutionChain pokemon={pokemon} flecha={flecha} />
             </Box>
           </Box>
         </Box>

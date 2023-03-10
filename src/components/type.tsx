@@ -13,7 +13,7 @@ const Type = ({type}: Props) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        border: "solid red 2px",
+        border: "solid #a5a5a5 2px",
         borderRadius: "5px",
         padding: "3px",
       }}

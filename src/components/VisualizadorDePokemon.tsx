@@ -27,6 +27,9 @@ const VisualizadorDePokemon = ({
         height: "100%",
       }}
     >
+      <Typography variant={"h5"} sx={{paddingLeft: "2rem", paddingTop: "2rem"}}>
+        Pokemon
+      </Typography>
       <Box
         sx={{
           display: "flex",
