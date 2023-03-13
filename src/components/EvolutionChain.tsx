@@ -36,17 +36,23 @@ const EvolutionChain = ({pokemon, flecha}: Props) => {
   }, [chainId]);
 
   useEffect(() => {
+    chain?.evolves_to.every((evolve) => {
+      console.log(evolve);
+    });
     if (pokemon.id === 1) {
       setChainId(1);
     } else if (
       !(
         chain?.species.name.includes(pokemon.name) ||
         (chain?.evolves_to[0] &&
-          chain?.evolves_to[0].species.name.includes(pokemon.name)) ||
+          chain?.evolves_to.every((evolve) => {
+            console.log("entro");
+            return evolve.species.name.includes(pokemon.name);
+          })) ||
         (chain?.evolves_to[0] &&
           chain?.evolves_to[0].evolves_to[0] &&
-          chain?.evolves_to[0].evolves_to[0].species.name.includes(
-            pokemon.name
+          chain?.evolves_to[0].evolves_to.every((evolve) =>
+            evolve.species.name.includes(pokemon.name)
           ))
       ) &&
       flecha === "der"
@@ -89,6 +95,7 @@ const EvolutionChain = ({pokemon, flecha}: Props) => {
           padding: "1rem",
           justifyContent: "space-evenly",
           alignContent: "center",
+          flexWrap: "wrap",
         }}
       >
         {chain && (
