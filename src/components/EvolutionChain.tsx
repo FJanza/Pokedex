@@ -1,31 +1,25 @@
 import React from "react";
 import {useEffect, useState} from "react";
 import {Box, Button, Card, Typography} from "@mui/material";
+import {Chain, ValueClass} from "src/interfaces/pokemon";
+import style from "../styles/Home.module.css";
 
 interface Props {
   pokemon: any;
-  flecha: string;
+  numeroPokemon: (numero: number) => void;
 }
 
-const EvolutionChain = ({pokemon, flecha}: Props) => {
-  const [chainId, setChainId] = useState(1);
-  const [chain, setChain] = useState<null | {
-    evolves_to: [
-      {
-        evolves_to: [{species: {name: string; url: string}}];
-        species: {name: string; url: string};
-      }
-    ];
-    species: {name: string; url: string};
-  }>(null);
+const EvolutionChain = ({pokemon, numeroPokemon}: Props) => {
+  const [dataSpecie, setDataSpecie] = useState<ValueClass>();
+  const [evolutionChain, setEvolutionChain] = useState<Chain>();
 
   useEffect(() => {
-    fetch(`https://pokeapi.co/api/v2/evolution-chain/${chainId}/`)
+    fetch(`${pokemon.species.url}`)
       .then((res) => res.json())
       .then((data) => {
         // Si todo esta bien, actualizamos el pokemon
         // Y le indicamos que no hay error
-        setChain(data.chain);
+        setDataSpecie(data);
         // setLoading(false);
         // setError(false);
       });
@@ -33,55 +27,23 @@ const EvolutionChain = ({pokemon, flecha}: Props) => {
     //   setLoading(false);
     //   setError(true);
     // });
-  }, [chainId]);
+  }, [pokemon]);
 
   useEffect(() => {
-    chain?.evolves_to.every((evolve) => {
-      console.log(evolve);
-    });
-    if (pokemon.id === 1) {
-      setChainId(1);
-    } else if (
-      !(
-        chain?.species.name.includes(pokemon.name) ||
-        (chain?.evolves_to[0] &&
-          chain?.evolves_to.every((evolve) => {
-            console.log("entro");
-            return evolve.species.name.includes(pokemon.name);
-          })) ||
-        (chain?.evolves_to[0] &&
-          chain?.evolves_to[0].evolves_to[0] &&
-          chain?.evolves_to[0].evolves_to.every((evolve) =>
-            evolve.species.name.includes(pokemon.name)
-          ))
-      ) &&
-      flecha === "der"
-    ) {
-      if (chainId + 1 < 530) {
-        setChainId(chainId + 1);
-      } else {
-        setChainId(1);
-      }
-    } else if (
-      !(
-        chain?.species.name.includes(pokemon.name) ||
-        (chain?.evolves_to[0] &&
-          chain?.evolves_to[0].species.name.includes(pokemon.name)) ||
-        (chain?.evolves_to[0] &&
-          chain?.evolves_to[0].evolves_to[0] &&
-          chain?.evolves_to[0].evolves_to[0].species.name.includes(
-            pokemon.name
-          ))
-      ) &&
-      flecha === "izq"
-    ) {
-      if (chainId - 1 > 0) {
-        setChainId(chainId - 1);
-      } else {
-        setChainId(530);
-      }
-    }
-  }, [pokemon]);
+    fetch(`${dataSpecie?.evolution_chain.url}`)
+      .then((res) => res.json())
+      .then((data) => {
+        // Si todo esta bien, actualizamos el pokemon
+        // Y le indicamos que no hay error
+        setEvolutionChain(data.chain);
+        // setLoading(false);
+        // setError(false);
+      });
+    // .catch((err) => {
+    //   setLoading(false);
+    //   setError(true);
+    // });
+  }, [dataSpecie]);
 
   return (
     <Box component={Card}>
@@ -92,67 +54,87 @@ const EvolutionChain = ({pokemon, flecha}: Props) => {
         sx={{
           display: "flex",
           flexDirection: "row",
-          padding: "1rem",
           justifyContent: "space-evenly",
-          alignContent: "center",
           flexWrap: "wrap",
+          padding: "1rem",
         }}
       >
-        {chain && (
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              alignItems: "center",
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <img
+            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
+              evolutionChain?.species.url.split("/")[6]
+            }.png`}
+            className={style.img}
+            onClick={() => {
+              evolutionChain?.species.url.split("/")[6] &&
+                numeroPokemon(+evolutionChain?.species.url.split("/")[6]);
             }}
-          >
-            <img
-              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
-                chain.species.url.split("/")[6]
-              }.png`}
-            />
-            <Typography variant="h5">{chain.species.name}</Typography>
-          </Box>
-        )}
-        {chain?.evolves_to[0] && (
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <img
-              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
-                chain.evolves_to[0].species.url.split("/")[6]
-              }.png`}
-            />
-            <Typography variant="h5">
-              {chain.evolves_to[0].species.name}
-            </Typography>
-          </Box>
-        )}
-        {chain?.evolves_to[0] && chain?.evolves_to[0].evolves_to[0] && (
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <img
-              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
-                chain.evolves_to[0].evolves_to[0].species.url.split("/")[6]
-              }.png`}
-            />
-            <Typography variant="h5">
-              {chain.evolves_to[0].evolves_to[0].species.name}
-            </Typography>
-          </Box>
-        )}
+          />
+          <Typography variant={"subtitle1"} sx={{mt: "0.5rem"}}>
+            {evolutionChain?.species.name}
+          </Typography>
+        </Box>
+
+        {evolutionChain?.evolves_to &&
+          evolutionChain?.evolves_to.map((evolucion) => {
+            return (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
+                    evolucion.species.url.split("/")[6]
+                  }.png`}
+                  className={style.img}
+                  onClick={() => {
+                    numeroPokemon(+evolucion.species.url.split("/")[6]);
+                  }}
+                />
+                <Typography variant={"subtitle1"} sx={{mt: "0.5rem"}}>
+                  {evolucion.species.name}
+                </Typography>
+              </Box>
+            );
+          })}
+
+        {evolutionChain?.evolves_to[0]?.evolves_to &&
+          evolutionChain?.evolves_to[0]?.evolves_to.map((evolucion) => {
+            return (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
+                    evolucion.species.url.split("/")[6]
+                  }.png`}
+                  className={style.img}
+                  onClick={() => {
+                    numeroPokemon(+evolucion.species.url.split("/")[6]);
+                  }}
+                />
+                <Typography variant={"subtitle1"} sx={{mt: "0.5rem"}}>
+                  {evolucion.species.name}
+                </Typography>
+              </Box>
+            );
+          })}
       </Box>
     </Box>
   );

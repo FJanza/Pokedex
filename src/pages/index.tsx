@@ -115,7 +115,12 @@ export default function Home() {
               <Details pokemon={pokemon} />
             </Box>
             <Box sx={{flex: 3}}>
-              <EvolutionChain pokemon={pokemon} flecha={flecha} />
+              <EvolutionChain
+                pokemon={pokemon}
+                numeroPokemon={(numeroPokemon) => {
+                  setPokemonID(numeroPokemon);
+                }}
+              />
             </Box>
           </Box>
         </Box>

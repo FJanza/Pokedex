@@ -2,7 +2,7 @@ import React from "react";
 import {Card, CardContent, Typography, Box, IconButton} from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-
+import style from "../styles/Home.module.css";
 interface Props {
   pokemonID: any;
   pokemon: any;
@@ -41,6 +41,7 @@ const VisualizadorDePokemon = ({
             onLoad={() => {}}
             src={pokemon.sprites.front_default}
             style={{flex: 1, maxHeight: "200px", maxWidth: "200px"}}
+            className={style.imgVisualizador}
           />
         ) : (
           <img
@@ -52,6 +53,7 @@ const VisualizadorDePokemon = ({
               maxWidth: "200px",
               opacity: 0.4,
             }}
+            className={style.imgVisualizador}
           />
         )}
       </Box>
