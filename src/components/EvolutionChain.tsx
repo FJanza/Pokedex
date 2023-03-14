@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {Box, Button, Card, Typography} from "@mui/material";
 import {Chain, ValueClass} from "src/interfaces/pokemon";
 import style from "../styles/Home.module.css";
+import Image from "next/image";
 
 interface Props {
   pokemon: any;
@@ -67,7 +68,10 @@ const EvolutionChain = ({pokemon, numeroPokemon}: Props) => {
             alignItems: "center",
           }}
         >
-          <img
+          <Image
+            alt={"pokemon-img"}
+            height={96}
+            width={96}
             src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
               evolutionChain?.species.url.split("/")[6]
             }.png`}
@@ -83,9 +87,10 @@ const EvolutionChain = ({pokemon, numeroPokemon}: Props) => {
         </Box>
 
         {evolutionChain?.evolves_to &&
-          evolutionChain?.evolves_to.map((evolucion) => {
+          evolutionChain?.evolves_to.map((evolucion, i) => {
             return (
               <Box
+                key={i}
                 sx={{
                   display: "flex",
                   flexDirection: "column",
@@ -93,7 +98,10 @@ const EvolutionChain = ({pokemon, numeroPokemon}: Props) => {
                   alignItems: "center",
                 }}
               >
-                <img
+                <Image
+                  alt="pokemon-img"
+                  height={96}
+                  width={96}
                   src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
                     evolucion.species.url.split("/")[6]
                   }.png`}
@@ -110,9 +118,10 @@ const EvolutionChain = ({pokemon, numeroPokemon}: Props) => {
           })}
 
         {evolutionChain?.evolves_to[0]?.evolves_to &&
-          evolutionChain?.evolves_to[0]?.evolves_to.map((evolucion) => {
+          evolutionChain?.evolves_to[0]?.evolves_to.map((evolucion, i) => {
             return (
               <Box
+                key={i}
                 sx={{
                   display: "flex",
                   flexDirection: "column",
@@ -120,7 +129,10 @@ const EvolutionChain = ({pokemon, numeroPokemon}: Props) => {
                   alignItems: "center",
                 }}
               >
-                <img
+                <Image
+                  height={96}
+                  width={96}
+                  alt="pokemon-img"
                   src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
                     evolucion.species.url.split("/")[6]
                   }.png`}

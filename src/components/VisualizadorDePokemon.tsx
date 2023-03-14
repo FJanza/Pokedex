@@ -3,6 +3,7 @@ import {Card, CardContent, Typography, Box, IconButton} from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import style from "../styles/Home.module.css";
+import Image from "next/image";
 interface Props {
   pokemonID: any;
   pokemon: any;
@@ -37,14 +38,20 @@ const VisualizadorDePokemon = ({
         }}
       >
         {pokemon.sprites.front_default ? (
-          <img
+          <Image
+            alt="pokemon-img"
+            height={200}
+            width={200}
             onLoad={() => {}}
             src={pokemon.sprites.front_default}
-            style={{flex: 1, maxHeight: "200px", maxWidth: "200px"}}
+            style={{flex: 1}}
             className={style.imgVisualizador}
           />
         ) : (
-          <img
+          <Image
+            alt="pokemon-img"
+            height={200}
+            width={200}
             onLoad={() => {}}
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Pok%C3%A9_Ball_icon.svg/770px-Pok%C3%A9_Ball_icon.svg.png"
             style={{
