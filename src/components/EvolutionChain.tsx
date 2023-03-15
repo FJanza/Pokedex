@@ -47,7 +47,7 @@ const EvolutionChain = ({pokemon, numeroPokemon}: Props) => {
   }, [dataSpecie]);
 
   return (
-    <Box component={Card}>
+    <Box component={Card} sx={{height: "100%"}}>
       <Typography variant={"h5"} sx={{paddingLeft: "1rem", paddingTop: "1rem"}}>
         Evolution Chain
       </Typography>

@@ -49,7 +49,7 @@ const Details = ({pokemon}: Props) => {
 
   return (
     <>
-      <Card>
+      <Card sx={{height: "100%"}}>
         <CardContent>
           <Box sx={{display: "flex", flexDirection: "column", gap: "0.5rem"}}>
             <Typography variant={"h5"}>Details</Typography>
