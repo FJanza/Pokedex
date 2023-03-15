@@ -72,9 +72,14 @@ const EvolutionChain = ({pokemon, numeroPokemon}: Props) => {
             alt={"pokemon-img"}
             height={96}
             width={96}
-            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
-              evolutionChain?.species.url.split("/")[6]
-            }.png`}
+            src={
+              evolutionChain?.species.url.split("/")[6] === "1010" ||
+              evolutionChain?.species.url.split("/")[6] === "1009"
+                ? "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Pok%C3%A9_Ball_icon.svg/770px-Pok%C3%A9_Ball_icon.svg.png"
+                : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
+                    evolutionChain?.species.url.split("/")[6]
+                  }.png`
+            }
             className={style.img}
             onClick={() => {
               evolutionChain?.species.url.split("/")[6] &&
