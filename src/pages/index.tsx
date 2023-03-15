@@ -20,6 +20,7 @@ import EvolutionChain from "src/components/EvolutionChain";
 import Button from "@mui/material/Button";
 import {useEffect, useState} from "react";
 import VisualizadorDePokemon from "src/components/VisualizadorDePokemon";
+import {Pokemon} from "src/interfaces/pokemonVisualizer";
 
 //max pokemon 1010
 
@@ -28,7 +29,7 @@ const MAX_POKEMON_ID = 1010;
 export default function Home() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [pokemon, setPokemon] = useState(null);
+  const [pokemon, setPokemon] = useState<Pokemon>();
   const [pokemonID, setPokemonID] = useState(1);
   const [flecha, setFlecha] = useState("");
 
@@ -72,6 +73,10 @@ export default function Home() {
         setError(true);
       });
   }, [pokemonID]);
+
+  useEffect(() => {
+    console.log(pokemon?.sprites.front_default);
+  }, [pokemon]);
 
   return (
     <>

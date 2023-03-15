@@ -1,6 +1,6 @@
 import React from "react";
 import {useEffect, useState} from "react";
-import {Box, Button, Card, Typography} from "@mui/material";
+import {Box, Card, Typography} from "@mui/material";
 import {Chain, ValueClass} from "src/interfaces/pokemon";
 import style from "../styles/Home.module.css";
 import Image from "next/image";
