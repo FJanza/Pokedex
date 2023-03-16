@@ -21,6 +21,8 @@ import Button from "@mui/material/Button";
 import {useEffect, useState} from "react";
 import VisualizadorDePokemon from "src/components/VisualizadorDePokemon";
 import {Pokemon} from "src/interfaces/pokemonVisualizer";
+import {prominent} from "color.js";
+import {lightenColor} from "src/helpers/image";
 
 //max pokemon 1010
 
@@ -32,6 +34,7 @@ export default function Home() {
   const [pokemon, setPokemon] = useState<Pokemon>();
   const [pokemonID, setPokemonID] = useState(1);
   const [flecha, setFlecha] = useState("");
+  const [backgroundColor, setBackgroundColor] = useState<string>();
 
   const theme = useTheme();
 
@@ -73,9 +76,15 @@ export default function Home() {
         setError(true);
       });
   }, [pokemonID]);
-
   useEffect(() => {
-    console.log(pokemon?.sprites.front_default);
+    pokemon?.sprites.front_default &&
+      prominent(`${pokemon?.sprites.front_default}`, {format: "hex"}).then(
+        (colors: any) => {
+          colors[1]
+            ? setBackgroundColor(lightenColor(colors[1], 0.1))
+            : setBackgroundColor(lightenColor(colors[0], 0.1));
+        }
+      );
   }, [pokemon]);
 
   return (
@@ -88,6 +97,13 @@ export default function Home() {
             flexDirection: "column",
             gap: "2rem",
             minWidth: "300px",
+            background:
+              backgroundColor !== undefined
+                ? `linear-gradient(to right top, ${backgroundColor}, ${lightenColor(
+                    backgroundColor,
+                    0.8
+                  )})`
+                : "#fafafa",
           }}
         >
           <Box
