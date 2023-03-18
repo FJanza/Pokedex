@@ -23,6 +23,7 @@ import VisualizadorDePokemon from "src/components/VisualizadorDePokemon";
 import {Pokemon} from "src/interfaces/pokemonVisualizer";
 import {prominent} from "color.js";
 import {lightenColor} from "src/helpers/image";
+import Swal from "sweetalert2";
 
 //max pokemon 1010
 
@@ -35,6 +36,19 @@ export default function Home() {
   const [pokemonID, setPokemonID] = useState(1);
   const [flecha, setFlecha] = useState("");
   const [backgroundColor, setBackgroundColor] = useState<string>();
+  const [errorVisualizador, setErrorVisualizador] = useState(false);
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
 
   const theme = useTheme();
 
@@ -60,6 +74,14 @@ export default function Home() {
       setPokemonID(1010);
     }
   }
+  useEffect(() => {
+    errorVisualizador &&
+      Toast.fire({
+        icon: "error",
+        title: "El id de pokemon debe ser menor de 1011",
+      });
+    setErrorVisualizador(false);
+  }, [errorVisualizador]);
 
   useEffect(() => {
     fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonID}`)
@@ -115,6 +137,12 @@ export default function Home() {
           >
             <Box sx={{flex: 1}}>
               <VisualizadorDePokemon
+                error={(e) => {
+                  setErrorVisualizador(e);
+                }}
+                cambioPokemonById={(e) => {
+                  setPokemonID(parseInt(e));
+                }}
                 pokemonID={pokemonID}
                 pokemon={pokemon}
                 handlerButtonFlechaIzq={() => handlerButtonFlechaIzq()}

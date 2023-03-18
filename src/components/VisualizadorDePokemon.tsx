@@ -1,5 +1,13 @@
-import React from "react";
-import {Card, CardContent, Typography, Box, IconButton} from "@mui/material";
+import React, {useEffect, useState} from "react";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Box,
+  IconButton,
+  TextField,
+  InputAdornment,
+} from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import style from "../styles/Home.module.css";
@@ -9,6 +17,8 @@ interface Props {
   pokemon: any;
   handlerButtonFlechaIzq: any;
   handlerButtonFlechaDer: any;
+  cambioPokemonById: (pomekemonid: string) => void;
+  error: (error: boolean) => void;
 }
 
 const VisualizadorDePokemon = ({
@@ -16,7 +26,22 @@ const VisualizadorDePokemon = ({
   pokemon,
   handlerButtonFlechaIzq,
   handlerButtonFlechaDer,
+  cambioPokemonById,
+  error,
 }: Props) => {
+  const regexPokemonID = new RegExp("^[1-9][0-9]{0,3}$");
+
+  const [pokemonIDAux, setPokemonIDAux] = useState(pokemonID);
+
+  useEffect(() => {
+    if (parseInt(pokemonIDAux) < 1011 && parseInt(pokemonIDAux) > 0) {
+      cambioPokemonById(pokemonIDAux);
+    }
+    if (parseInt(pokemonIDAux) > 1010) {
+      error(true);
+    }
+  }, [pokemonIDAux]);
+
   return (
     <Box
       component={Card}
@@ -79,9 +104,22 @@ const VisualizadorDePokemon = ({
           <KeyboardArrowLeftIcon />
         </IconButton>
 
-        <Typography gutterBottom variant="h6" component="div">
-          #{pokemonID}
-        </Typography>
+        <TextField
+          variant="standard"
+          value={pokemonIDAux}
+          onChange={(e) => {
+            if (e.target.value === "") {
+              setPokemonIDAux(e.target.value);
+            } else if (regexPokemonID.test(e.target.value)) {
+              setPokemonIDAux(e.target.value);
+            }
+          }}
+          sx={{display: "flex", maxWidth: "70px"}}
+          InputProps={{
+            startAdornment: <InputAdornment position="start">#</InputAdornment>,
+            disableUnderline: true,
+          }}
+        />
 
         <IconButton
           size="large"
