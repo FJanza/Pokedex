@@ -42,6 +42,10 @@ const VisualizadorDePokemon = ({
     }
   }, [pokemonIDAux]);
 
+  useEffect(() => {
+    setPokemonIDAux(pokemonID);
+  }, [pokemonID]);
+
   return (
     <Box
       component={Card}
@@ -114,10 +118,15 @@ const VisualizadorDePokemon = ({
               setPokemonIDAux(e.target.value);
             }
           }}
-          sx={{display: "flex", maxWidth: "70px"}}
           InputProps={{
             startAdornment: <InputAdornment position="start">#</InputAdornment>,
             disableUnderline: true,
+          }}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            width: `${pokemonIDAux.toString().length + 7}ch`,
+            px: 2,
           }}
         />
 
