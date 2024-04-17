@@ -50,8 +50,6 @@ export default function Home() {
     },
   });
 
-  const theme = useTheme();
-
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down("md")
   );
@@ -81,6 +79,7 @@ export default function Home() {
         title: "El id de pokemon debe ser menor de 1011",
       });
     setErrorVisualizador(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errorVisualizador]);
 
   useEffect(() => {

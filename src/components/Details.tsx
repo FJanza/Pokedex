@@ -1,6 +1,7 @@
 import {Card, CardContent, Typography, Box} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import Type from "./type";
+import TypeVisualizer from "./type";
+import {Type} from "src/interfaces/pokemon";
 
 interface Props {
   pokemon: any;
@@ -28,15 +29,14 @@ const objListaTiposWeakness: {[key: string]: string[]} = {
 };
 
 const Details = ({pokemon}: Props) => {
-  const [tiposWeakness, setTiposWeakness] = useState<string[]>();
+  const [tiposWeakness, setTiposWeakness] = useState<Type[]>();
 
   useEffect(() => {
     let arrayTiposWeaknessAux = pokemon.types.map((type: any) => {
       return objListaTiposWeakness[type.type.name];
     });
-    // console.log({arrayTiposWeaknessAux});
 
-    let tiposWeaknessAux: string[] = [];
+    let tiposWeaknessAux: Type[] = [];
 
     for (let i = 0; i < arrayTiposWeaknessAux.length; i++) {
       tiposWeaknessAux.push(...arrayTiposWeaknessAux[i]);
@@ -57,7 +57,9 @@ const Details = ({pokemon}: Props) => {
             {/* <Type type={pokemon}></Type> */}
             <Box sx={{display: "flex", flexDirection: "row", gap: "1rem"}}>
               {pokemon.types.map((type: any) => {
-                return <Type type={type.type.name} key={type.type.name} />;
+                return (
+                  <TypeVisualizer type={type.type.name} key={type.type.name} />
+                );
               })}
             </Box>
             <Typography sx={{fontSize: "13px"}}>Weakness</Typography>
@@ -71,7 +73,7 @@ const Details = ({pokemon}: Props) => {
               }}
             >
               {tiposWeakness?.map((tipo) => {
-                return <Type type={tipo} key={tipo + "112"} />;
+                return <TypeVisualizer type={tipo} key={tipo + "112"} />;
               })}
             </Box>
           </Box>
